@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.lang.annotation.*;
 
 /**
- * 支持匿名访问   GetMapping
+ * 支持匿名访问 GetMapping
  *
  * @author Yuanhao
  */

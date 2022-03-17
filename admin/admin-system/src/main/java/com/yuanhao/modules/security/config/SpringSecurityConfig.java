@@ -36,6 +36,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 允许基于选择匹配在资源级配置基于网络的安全性
+     * 具体的权限控制规则配置,各种具体的认证机制的相关配置
+     * @param httpSecurity
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         //  搜寻匿名标记 url， @AnonymousAccess

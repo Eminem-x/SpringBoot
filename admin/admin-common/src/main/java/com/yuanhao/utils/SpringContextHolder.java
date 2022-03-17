@@ -20,8 +20,8 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
     private static boolean addCallback = true;
 
     /**
-     * 针对 某些初始化方法，在SpringContextHolder 未初始化时 提交回调方法。
-     * 在SpringContextHolder 初始化后，进行回调使用
+     * 针对某些初始化方法，在 SpringContextHolder 未初始化时 提交回调方法。
+     * 在 SpringContextHolder 初始化后，进行回调使用
      *
      * @param callBack 回调函数
      */
@@ -63,7 +63,8 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
         T result = defaultValue;
         try {
             result = getBean(Environment.class).getProperty(property, requiredType);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return result;
     }
 

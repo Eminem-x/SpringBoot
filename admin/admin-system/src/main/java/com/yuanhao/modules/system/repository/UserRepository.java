@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * 帮助我们将其他接口的方法的返回值做适配处理
+ * 完成多条件查询，并且支持分页与排序。
+ *
  * @author Yuanhao
  */
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
