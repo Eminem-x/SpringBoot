@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"go-admin/cmd/version"
 	"go-admin/common/global"
 	"go-admin/core/sdk/pkg"
 	"os"
@@ -33,6 +34,10 @@ func tip() {
 	fmt.Printf("%s\n", usageStr)
 	usageStr = `也可以参考 https://doc.go-admin.dev/guide/ksks 的相关内容`
 	fmt.Printf("%s\n", usageStr)
+}
+
+func init() {
+	rootCmd.AddCommand(version.StartCmd)
 }
 
 func Execute() {
