@@ -1,0 +1,4 @@
+.Ds_Store
+*.sum
+/.idea/
+*/.Ds_Store

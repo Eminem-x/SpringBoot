@@ -27,6 +27,8 @@ var (
 func setup() {
 	// 注入配置拓展项
 	config.ExtendConfig = &ext.ExtConfig
+	// 1. 读取配置
+	config.
 }
 
 func run() {
