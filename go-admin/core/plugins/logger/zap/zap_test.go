@@ -2,9 +2,9 @@ package zap
 
 import (
 	"fmt"
+	"go-admin/core/debug/writer"
 	"testing"
 
-	"go-admin/core/debug/writer"
 	"go-admin/core/logger"
 )
 
@@ -67,7 +67,8 @@ func TestFields(t *testing.T) {
 }
 
 func TestFile(t *testing.T) {
-	output, err := writer.NewFileWriter("testdata", "log")
+	// mkdir /tmp/go-admin
+	output, err := writer.NewFileWriter(writer.WithCap(10))
 	if err != nil {
 		t.Errorf("logger setup error: %s", err.Error())
 	}
