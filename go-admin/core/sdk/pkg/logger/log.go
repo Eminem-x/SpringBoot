@@ -34,7 +34,7 @@ func SetupLogger(opts ...Option) logger.Logger {
 			writer.WithCap(op.cap<<10),
 		)
 		if err != nil {
-			log.Fatal("logger setup error: %s", err.Error())
+			log.Fatalf("logger setup error: %s", err.Error())
 		}
 	default:
 		output = os.Stdout

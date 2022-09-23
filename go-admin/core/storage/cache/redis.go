@@ -8,6 +8,21 @@ import (
 
 // TODO redis/v9 增加 ctx 上下文
 
+// NewRedis redis 模式
+func NewRedis(client *redis.Client, options *redis.Options) (*Redis, error) {
+	if client == nil {
+		client = redis.NewClient(options)
+	}
+	r := &Redis{
+		client: client,
+	}
+	err := r.connect()
+	if err != nil {
+		return nil, err
+	}
+	return r, nil
+}
+
 // Redis cache implement
 type Redis struct {
 	client *redis.Client
@@ -54,6 +69,7 @@ func (r *Redis) Decrease(key string) error {
 	return r.client.Decr(context.Background(), key).Err()
 }
 
+// Expire set ttl
 func (r *Redis) Expire(key string, dur time.Duration) error {
 	return r.client.Expire(context.Background(), key, dur).Err()
 }

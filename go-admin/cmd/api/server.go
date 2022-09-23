@@ -31,5 +31,6 @@ func setup() {
 	config.
 }
 
-func run() {
+func run() error {
+	return nil
 }
