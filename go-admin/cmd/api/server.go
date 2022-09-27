@@ -2,6 +2,8 @@ package api
 
 import (
 	"github.com/spf13/cobra"
+	"go-admin/common/database"
+	"go-admin/common/storage"
 	"go-admin/core/config/source/file"
 
 	ext "go-admin/config"
@@ -33,6 +35,8 @@ func setup() {
 	// 1. 读取配置
 	config.Setup(
 		file.NewSource(file.WithPath(configYml)),
+		database.Setup,
+		storage.Setup,
 	)
 }
 
