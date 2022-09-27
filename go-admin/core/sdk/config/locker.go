@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/go-redis/redis/v9"
+	"github.com/go-redis/redis/v7"
 	"go-admin/core/storage"
 	"go-admin/core/storage/locker"
 )

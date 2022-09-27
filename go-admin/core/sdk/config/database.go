@@ -18,5 +18,5 @@ type DBResolverConfig struct {
 
 var (
 	DatabaseConfig  = new(Database)
-	DatabasesConfig = new(map[string]*Database)
+	DatabasesConfig = make(map[string]*Database)
 )

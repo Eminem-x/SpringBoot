@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/spf13/cobra"
+	"go-admin/core/config/source/file"
 
 	ext "go-admin/config"
 	"go-admin/core/sdk/config"
@@ -24,11 +25,15 @@ var (
 	}
 )
 
+var AppRouters = make([]func(), 0)
+
 func setup() {
 	// 注入配置拓展项
 	config.ExtendConfig = &ext.ExtConfig
 	// 1. 读取配置
-	config.
+	config.Setup(
+		file.NewSource(file.WithPath(configYml)),
+	)
 }
 
 func run() error {

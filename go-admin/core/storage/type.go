@@ -2,6 +2,7 @@ package storage
 
 import (
 	"github.com/bsm/redislock"
+
 	"time"
 )
 
@@ -25,6 +26,8 @@ type AdapterQueue interface {
 	String() string
 	Append(message Messager) error
 	Register(name string, f ConsumerFunc)
+	Run()
+	Shutdown()
 }
 
 type Messager interface {
@@ -35,7 +38,7 @@ type Messager interface {
 	GetStream() string
 	GetValues() map[string]interface{}
 	GetPrefix() string
-	SetPrefix() string
+	SetPrefix(string)
 	SetErrorCount(count int)
 	GetErrorCount() int
 }
