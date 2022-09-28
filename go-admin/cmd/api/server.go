@@ -5,6 +5,7 @@ import (
 	"go-admin/common/database"
 	"go-admin/common/storage"
 	"go-admin/core/config/source/file"
+	"go-admin/core/sdk"
 
 	ext "go-admin/config"
 	"go-admin/core/sdk/config"
@@ -38,6 +39,8 @@ func setup() {
 		database.Setup,
 		storage.Setup,
 	)
+	// 注册监听函数
+	queue := sdk.Runtime.GetMemoryQueue("")
 }
 
 func run() error {
