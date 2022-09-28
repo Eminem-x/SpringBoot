@@ -2,10 +2,13 @@ package api
 
 import (
 	"github.com/spf13/cobra"
+	"go-admin/app/admin/models"
 	"go-admin/common/database"
+	"go-admin/common/global"
 	"go-admin/common/storage"
 	"go-admin/core/config/source/file"
 	"go-admin/core/sdk"
+	"log"
 
 	ext "go-admin/config"
 	"go-admin/core/sdk/config"
@@ -41,6 +44,13 @@ func setup() {
 	)
 	// 注册监听函数
 	queue := sdk.Runtime.GetMemoryQueue("")
+	queue.Register(global.LoginLog, models.SaveLoginLog)
+	queue.Register(global.OperateLog, models.SaveOperaLog)
+	queue.Register(global.ApiCheck, models.SaveSysApi)
+	go queue.Run()
+
+	usageStr := `starting api server...`
+	log.Println(usageStr)
 }
 
 func run() error {
