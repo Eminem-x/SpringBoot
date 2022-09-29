@@ -6,18 +6,23 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
 	"go-admin/app/admin/models"
+	"go-admin/app/admin/router"
 	"go-admin/common/database"
 	"go-admin/common/global"
+	"go-admin/common/middleware/handler"
 	"go-admin/common/storage"
+	"go-admin/core/api"
 	"go-admin/core/config/source/file"
 	"go-admin/core/sdk"
 	"go-admin/core/sdk/pkg"
+	"go-admin/core/sdk/runtime"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
+	common "go-admin/common/middleware"
 	ext "go-admin/config"
 	"go-admin/core/sdk/config"
 )
@@ -40,6 +45,14 @@ var (
 )
 
 var AppRouters = make([]func(), 0)
+
+func init() {
+	StartCmd.PersistentFlags().StringVarP(&configYml, "config", "c", "config/settings.yml", "Start server with provided configuration file")
+	StartCmd.PersistentFlags().BoolVarP(&apiCheck, "api", "a", false, "Start server with check api data")
+
+	//注册路由 fixme 其他应用的路由，在本目录新建文件放在init方法
+	AppRouters = append(AppRouters, router.InitRouter)
+}
 
 func setup() {
 	// 注入配置拓展项
@@ -67,7 +80,7 @@ func run() error {
 	}
 
 	// 初始化路由
-	// initRouter()
+	initRouter()
 
 	for _, f := range AppRouters {
 		f()
@@ -139,4 +152,27 @@ func run() error {
 func tip() {
 	usageStr := `欢迎使用 ` + pkg.Green(`go-admin `+global.Version) + ` 可以使用 ` + pkg.Red(`-h`) + ` 查看命令`
 	fmt.Printf("%s \n\n", usageStr)
+}
+
+var Router runtime.Router
+
+func initRouter() {
+	var r *gin.Engine
+	h := sdk.Runtime.GetEngine()
+	if h == nil {
+		h = gin.New()
+		sdk.Runtime.SetEngine(h)
+	}
+	switch h.(type) {
+	case *gin.Engine:
+		r = h.(*gin.Engine)
+	default:
+		log.Fatal("not support other engine")
+	}
+	if config.SslConfig.Enable {
+		r.Use(handler.TlsHandler())
+	}
+	r.Use(common.Sentinel()).Use(common.RequestID(pkg.TrafficKey)).Use(api.SetRequestLogger)
+
+	common.InitMiddleWare(r)
 }
