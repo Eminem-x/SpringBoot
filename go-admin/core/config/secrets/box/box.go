@@ -2,11 +2,11 @@
 package box
 
 import (
+	"crypto/rand"
+
 	"github.com/pkg/errors"
 	"go-admin/core/config/secrets"
 	naclbox "golang.org/x/crypto/nacl/box"
-
-	"crypto/rand"
 )
 
 const keyLength = 32

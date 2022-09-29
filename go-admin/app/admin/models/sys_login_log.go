@@ -3,11 +3,12 @@ package models
 import (
 	"encoding/json"
 	"errors"
+	"time"
+
 	"go-admin/common/models"
 	log "go-admin/core/logger"
 	"go-admin/core/sdk"
 	"go-admin/core/storage"
-	"time"
 )
 
 type SysLoginLog struct {
@@ -69,6 +70,6 @@ func SaveLoginLog(message storage.Messager) (err error) {
 		log.Errorf("db create error, %s", err.Error())
 		return err
 	}
-	
+
 	return nil
 }

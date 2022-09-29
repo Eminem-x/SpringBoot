@@ -1,9 +1,10 @@
 package locker
 
 import (
+	"time"
+
 	"github.com/bsm/redislock"
 	"github.com/go-redis/redis/v7"
-	"time"
 )
 
 // NewRedis 初始化 locker

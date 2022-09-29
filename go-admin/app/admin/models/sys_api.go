@@ -4,14 +4,16 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"regexp"
+	"strings"
+
 	"github.com/bitly/go-simplejson"
+
 	"go-admin/common/models"
 	"go-admin/core/sdk"
 	"go-admin/core/sdk/runtime"
 	"go-admin/core/storage"
-	"io/ioutil"
-	"regexp"
-	"strings"
 )
 
 type SysApi struct {

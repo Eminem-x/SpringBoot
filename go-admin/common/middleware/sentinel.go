@@ -1,11 +1,11 @@
 package middleware
 
 import (
+	log "go-admin/core/logger"
+
 	"github.com/alibaba/sentinel-golang/core/system"
 	sentinel "github.com/alibaba/sentinel-golang/pkg/adapters/gin"
 	"github.com/gin-gonic/gin"
-
-	log "go-admin/core/logger"
 )
 
 // Sentinel 限流

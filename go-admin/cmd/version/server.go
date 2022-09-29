@@ -2,9 +2,10 @@ package version
 
 import (
 	"fmt"
-	"go-admin/common/global"
 
 	"github.com/spf13/cobra"
+
+	"go-admin/common/global"
 )
 
 var (

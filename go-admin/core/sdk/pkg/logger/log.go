@@ -7,9 +7,8 @@ import (
 	"os"
 
 	"go-admin/core/debug/writer"
-	"go-admin/core/sdk/pkg"
-
 	"go-admin/core/plugins/logger/zap"
+	"go-admin/core/sdk/pkg"
 )
 
 // SetupLogger 日志 cap 单位为 kb

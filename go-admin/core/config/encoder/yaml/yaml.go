@@ -2,6 +2,7 @@ package yaml
 
 import (
 	"github.com/ghodss/yaml"
+
 	"go-admin/core/config/encoder"
 )
 

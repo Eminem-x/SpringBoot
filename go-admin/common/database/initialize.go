@@ -1,6 +1,12 @@
 package database
 
 import (
+	"time"
+
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
+
 	"go-admin/common/global"
 	log "go-admin/core/logger"
 	"go-admin/core/sdk"
@@ -9,10 +15,6 @@ import (
 	mycasbin "go-admin/core/sdk/pkg/casbin"
 	toolsDB "go-admin/core/tools/database"
 	. "go-admin/core/tools/gorm/logger"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
-	"gorm.io/gorm/schema"
-	"time"
 )
 
 // Setup 配置数据库

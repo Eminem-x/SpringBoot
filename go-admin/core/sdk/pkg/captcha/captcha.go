@@ -1,9 +1,10 @@
 package captcha
 
 import (
+	"image/color"
+
 	"github.com/google/uuid"
 	"github.com/mojocn/base64Captcha"
-	"image/color"
 )
 
 // SetStore 设置store

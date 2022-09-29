@@ -1,16 +1,17 @@
 package runtime
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"sync"
 
 	"github.com/casbin/casbin/v2"
+	"github.com/gin-gonic/gin"
 	"github.com/robfig/cron/v3"
+	"gorm.io/gorm"
+
 	"go-admin/core/logger"
 	"go-admin/core/storage"
 	"go-admin/core/storage/queue"
-	"gorm.io/gorm"
 )
 
 type Application struct {

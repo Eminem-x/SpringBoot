@@ -7,13 +7,13 @@ import (
 	"github.com/casbin/casbin/v2/log"
 	"github.com/casbin/casbin/v2/model"
 	redisWatcher "github.com/casbin/redis-watcher/v2"
+	gormAdapter "github.com/go-admin-team/gorm-adapter/v3"
 	"github.com/go-redis/redis/v8"
+	"gorm.io/gorm"
+
 	"go-admin/core/logger"
 	"go-admin/core/sdk"
 	"go-admin/core/sdk/config"
-	"gorm.io/gorm"
-
-	gormAdapter "github.com/go-admin-team/gorm-adapter/v3"
 )
 
 // Initialize the model from a string.

@@ -1,8 +1,9 @@
 package cache
 
 import (
-	"github.com/go-redis/redis/v7"
 	"time"
+
+	"github.com/go-redis/redis/v7"
 )
 
 // NewRedis redis 模式

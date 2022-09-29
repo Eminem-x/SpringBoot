@@ -2,9 +2,9 @@ package zap
 
 import (
 	"fmt"
-	"go-admin/core/debug/writer"
 	"testing"
 
+	"go-admin/core/debug/writer"
 	"go-admin/core/logger"
 )
 

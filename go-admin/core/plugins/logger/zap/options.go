@@ -1,11 +1,12 @@
 package zap
 
 import (
-	"go-admin/core/logger"
 	"io"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	"go-admin/core/logger"
 )
 
 type Options struct {
