@@ -1,6 +1,9 @@
 package api
 
 import (
+	"context"
+	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
 	"go-admin/app/admin/models"
 	"go-admin/common/database"
@@ -8,7 +11,12 @@ import (
 	"go-admin/common/storage"
 	"go-admin/core/config/source/file"
 	"go-admin/core/sdk"
+	"go-admin/core/sdk/pkg"
 	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"time"
 
 	ext "go-admin/config"
 	"go-admin/core/sdk/config"
@@ -54,5 +62,81 @@ func setup() {
 }
 
 func run() error {
+	if config.ApplicationConfig.Mode == pkg.ModeProd.String() {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
+	// 初始化路由
+	// initRouter()
+
+	for _, f := range AppRouters {
+		f()
+	}
+
+	srv := &http.Server{
+		Addr:    fmt.Sprintf("%s:%d", config.ApplicationConfig.Host, config.ApplicationConfig.Port),
+		Handler: sdk.Runtime.GetEngine(),
+	}
+
+	// TODO 初始化 JOb
+
+	if apiCheck {
+		var routers = sdk.Runtime.GetRouter()
+		q := sdk.Runtime.GetMemoryQueue("")
+		mp := make(map[string]interface{}, 0)
+		mp["list"] = routers
+		message, err := sdk.Runtime.GetStreamMessage("", global.ApiCheck, mp)
+		if err != nil {
+			log.Printf("GetStreamMessage error, %s \n", err.Error())
+			//日志报错错误，不中断请求
+		} else {
+			err = q.Append(message)
+			if err != nil {
+				log.Printf("Append message error, %s \n", err.Error())
+			}
+		}
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	go func() {
+		// 服务连接
+		if config.SslConfig.Enable {
+			if err := srv.ListenAndServeTLS(config.SslConfig.Pem, config.SslConfig.KeyStr); err != nil && err != http.ErrServerClosed {
+				log.Fatal("listen: ", err)
+			}
+		} else {
+			if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				log.Fatal("listen: ", err)
+			}
+		}
+	}()
+
+	fmt.Println(pkg.Red(string(global.LogoContent)))
+	tip()
+	fmt.Println(pkg.Green("Server run at:"))
+	fmt.Printf("-  Local:   http://localhost:%d/ \r\n", config.ApplicationConfig.Port)
+	fmt.Printf("-  Network: http://%s:%d/ \r\n", pkg.GetLocalHost(), config.ApplicationConfig.Port)
+	fmt.Println(pkg.Green("Swagger run at:"))
+	fmt.Printf("-  Local:   http://localhost:%d/swagger/index.html \r\n", config.ApplicationConfig.Port)
+	fmt.Printf("-  Network: http://%s:%d/swagger/index.html \r\n", pkg.GetLocalHost(), config.ApplicationConfig.Port)
+	fmt.Printf("%s Enter Control + C Shutdown Server \r\n", pkg.GetCurrentTimeStr())
+
+	// 等待中断信号以优雅地关闭服务器（设置 5 秒的超时时间）
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	fmt.Printf("%s Shutdown Server ... \r\n", pkg.GetCurrentTimeStr())
+
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
+	}
+	log.Println("Server exiting")
+
 	return nil
+}
+
+func tip() {
+	usageStr := `欢迎使用 ` + pkg.Green(`go-admin `+global.Version) + ` 可以使用 ` + pkg.Red(`-h`) + ` 查看命令`
+	fmt.Printf("%s \n\n", usageStr)
 }
