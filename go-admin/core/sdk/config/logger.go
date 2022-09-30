@@ -3,12 +3,12 @@ package config
 import "go-admin/core/sdk/pkg/logger"
 
 type Logger struct {
-	Type     string
-	Path     string
-	Level    string
-	Stdout   string
-	EnableDB bool
-	Cap      uint
+	Type      string
+	Path      string
+	Level     string
+	Stdout    string
+	EnabledDB bool
+	Cap       uint
 }
 
 func (e Logger) Setup() {
