@@ -11,7 +11,6 @@ import (
 )
 
 func InitRouter() {
-	// TODO InitRouter
 	var r *gin.Engine
 	h := sdk.Runtime.GetEngine()
 	if h == nil {
